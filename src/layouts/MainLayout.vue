@@ -1,81 +1,100 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
+    <!-- Barra superior -->
+    <q-header elevated class="bg-dark text-white flex items-center justify-between q-px-md">
+      <div class="text-h6 text-bold">Oeste Auto Center</div>
+      <q-btn flat round dense icon="logout" color="red" @click="sair" title="Sair" />
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
+    <!-- Menu lateral -->
+    <q-drawer
+      v-model="drawer"
+      show-if-above
+      side="left"
+      class="menu-lateral bg-dark"
+    >
+      <div class="q-pa-md text-center">
+        <q-avatar size="80px" class="q-mb-md">
+          <img src="https://cdn-icons-png.flaticon.com/512/679/679720.png" alt="logo" />
+        </q-avatar>
+        <div class="text-h6 text-white q-mb-lg">Menu Mestre</div>
+      </div>
 
-        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
+      <q-list>
+        <q-item
+          clickable
+          v-for="item in menuItems"
+          :key="item.label"
+          @click="navegar(item.path)"
+          class="menu-item q-mb-sm"
+        >
+          <q-item-section avatar>
+            <q-icon :name="item.icon" color="white" size="28px" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-white">{{ item.label }}</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
+    <!-- Conteúdo principal -->
     <q-page-container>
       <router-view />
     </q-page-container>
+
   </q-layout>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+import { useRouter } from 'vue-router'
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-  },
+const drawer = ref(true)
+const router = useRouter()
+
+const menuItems = [
+  { label: 'Cliente', icon: 'person', path: '/cliente' },
+  { label: 'Veículo', icon: 'directions_car', path: '/veiculo' },
+  { label: 'Funcionário', icon: 'engineering', path: '/funcionario' },
+  { label: 'Serviço', icon: 'build', path: '/servico' },
+  { label: 'Ordem de Serviço', icon: 'assignment', path: '/ordem-servico' },
+  { label: 'Dashboard', icon: 'bar_chart', path: '/dashboard' }
 ]
 
-const leftDrawerOpen = ref(false)
+function navegar(path) {
+  router.push(path)
+}
 
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
+function sair() {
+  router.push('/login')
 }
 </script>
+
+<style scoped>
+.bg-dark {
+  background: linear-gradient(180deg, #0f0f0f 30%, #1a1a1a 80%, #e50914);
+}
+
+.menu-lateral {
+  width: 230px;
+  background-color: #0d0d0d;
+  box-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
+}
+
+.menu-item {
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.menu-item:hover {
+  background-color: rgba(229, 9, 20, 0.8);
+  transform: scale(1.03);
+}
+
+.q-header {
+  background-color: #0d0d0d;
+  box-shadow: 0 0 10px rgba(229, 9, 20, 0.6);
+}
+</style>
