@@ -25,6 +25,13 @@
         dark
       />
 
+      <!-- Link para recuperar senha -->
+      <div class="text-right link-recuperar q-mt-xs">
+        <span @click="irRecuperarSenha" class="recuperar-senha-text">
+          Esqueci minha senha
+        </span>
+      </div>
+
       <div class="q-mt-lg">
         <q-btn
           label="ENTRAR"
@@ -54,11 +61,11 @@ const carregando = ref(false)
 const login = async () => {
   if (email.value === 'admin@teste.com' && senha.value === '1234') {
     carregando.value = true
-    alert('Login realizado com sucesso!')
+
+    localStorage.setItem("usuarioNome", "Admin")
 
     await nextTick()
 
-    // Simula tempo de carregamento real
     setTimeout(() => {
       carregando.value = false
       router.push('/dashboard')
@@ -66,6 +73,10 @@ const login = async () => {
   } else {
     alert('Usuário ou senha incorretos!')
   }
+}
+
+const irRecuperarSenha = () => {
+  router.push('/recuperar-senha')
 }
 </script>
 
@@ -86,12 +97,6 @@ const login = async () => {
   text-align: center;
   color: white;
   box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
-  transition: 0.3s;
-}
-
-.login-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 40px rgba(255, 0, 0, 0.6);
 }
 
 .logo-container {
@@ -107,15 +112,21 @@ const login = async () => {
 }
 
 .titulo {
-  font-family: 'Poppins', sans-serif;
   font-weight: 600;
   font-size: 1.4rem;
   margin-bottom: 10px;
   color: #fff;
 }
 
-.input-login {
-  color: white;
+.recuperar-senha-text {
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: #ffffffc9;
+  transition: 0.2s;
+}
+
+.recuperar-senha-text:hover {
+  color: #ff4d4d;
 }
 
 .botao-login {
@@ -123,11 +134,5 @@ const login = async () => {
   font-weight: bold;
   font-size: 1.1rem;
   border-radius: 10px;
-  transition: 0.3s;
-}
-
-.botao-login:hover {
-  background-color: #ff0000;
-  color: white;
 }
 </style>
