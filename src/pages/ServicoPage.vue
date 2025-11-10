@@ -2,7 +2,7 @@
   <div class="servico-container q-pa-md">
     <h1 class="titulo">Tabela de Serviços</h1>
 
-    <!-- 🔍 Pesquisa + botão adicionar -->
+    <!-- Pesquisa + botão adicionar -->
     <div class="acoes-topo q-mb-md flex justify-between items-center">
       <q-input
         v-model="filtro"
@@ -30,7 +30,7 @@
       />
     </div>
 
-    <!-- 🧾 Tabela -->
+    <!-- Tabela -->
     <q-table
       :rows="servicosFiltrados"
       :columns="colunas"
@@ -255,13 +255,13 @@ const editarServico = (row) => {
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
-/* Campos e labels brancos */
+
 .campo-branco .q-field__label,
 .campo-branco .q-field__native {
   color: white !important;
 }
 
-/* Dropdown escuro */
+
 .popup-tempo {
   background-color: #1b1b1b !important;
   color: white !important;
@@ -277,7 +277,7 @@ const editarServico = (row) => {
   transition: 0.2s;
 }
 
-/* Modal */
+
 .q-card.bg-dark {
   background: rgba(20, 20, 20, 0.95);
   box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);

@@ -2,31 +2,31 @@
 // os caminhos de páginas que o usuário pode acessar.
 const routes = [
 
-  // 🔹 Quando o usuário acessa a raiz do site "/", ele é redirecionado para a tela de login
+  // Quando o usuário acessa a raiz do site "/", ele é redirecionado para a tela de login
   {
     path: '/',
     redirect: '/login'
   },
 
-  // 🔹 Tela de Login
+  // Tela de Login
   {
     path: '/login',
     component: () => import('pages/LoginPage.vue')
   },
 
-  // 🔹 Tela de Recuperação de Senha
+  // Tela de Recuperação de Senha
   {
     path: '/recuperar-senha',
     component: () => import('pages/RecuperarSenhaPage.vue')
   },
 
-  // 🔹 Parte principal do sistema com menu lateral e cabeçalho
+  // Parte principal do sistema com menu lateral e cabeçalho
   // Dentro dela ficam as páginas internas (clientes, veículos, etc)
   {
     path: '/home',
     component: () => import('layouts/MainLayout.vue'),
 
-    // ✅ Rotas Filhas: páginas que aparecem dentro do layout (com menu e header)
+    // Rotas Filhas: páginas que aparecem dentro do layout (com menu e header)
     children: [
 
       // Página inicial dentro do sistema (pode ser o dashboard)
@@ -52,12 +52,12 @@ const routes = [
     ]
   },
 
-  // 🔹 Página de erro caso o usuário digite uma rota inexistente
+  // Página de erro caso o usuário digite uma rota inexistente
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue')
   }
 ]
 
-// 🔹 Exporta as rotas para o sistema conseguir usar
+// Exporta as rotas para o sistema conseguir usar
 export default routes

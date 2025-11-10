@@ -63,7 +63,7 @@ const voltarLogin = () => {
 </script>
 
 <style scoped>
-/* Fundo centralizado com gradiente */
+
 .recuperar-container {
   display: grid;
   place-items: center;
@@ -72,7 +72,7 @@ const voltarLogin = () => {
   background: linear-gradient(135deg, #1b1b1b 40%, #a60000);
 }
 
-/* Card */
+
 .recuperar-card {
   width: 380px;
   padding: 35px;
@@ -83,7 +83,7 @@ const voltarLogin = () => {
   box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
 }
 
-/* Logo */
+
 .logo-container {
   display: flex;
   justify-content: center;
@@ -96,7 +96,7 @@ const voltarLogin = () => {
   filter: drop-shadow(0 0 8px red);
 }
 
-/* Texto */
+
 .titulo {
   font-size: 1.4rem;
   font-weight: bold;
@@ -109,18 +109,18 @@ const voltarLogin = () => {
   margin-bottom: 12px;
 }
 
-/* Input */
+
 .input-email {
   color: white;
 }
 
-/* Botão */
+
 .botao-enviar {
   width: 100%;
   font-weight: bold;
 }
 
-/* Link voltar */
+
 .voltar-login {
   font-size: 0.85rem;
   text-decoration: underline;

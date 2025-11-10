@@ -86,34 +86,21 @@
 </template>
 
 <script setup>
-/*
-  Importações necessárias:
-  ref = cria variáveis reativas
-  useRouter = permite navegar entre páginas
-*/
+
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 // Usando roteador para voltar ou ir para outra tela
 const router = useRouter()
 
-/*
-  Objeto reativo que representa os dados do serviço
-  v-model preenche esses valores conforme o usuário digita
-*/
+//armazenar os dados do serviço
 const servico = ref({
   nome: '',
   preco: '',
   tempo: '',
   descricao: ''
 })
-
-/*
-  Função para salvar o serviço
-  - valida se os campos obrigatórios estão preenchidos
-  - exibe mensagem de sucesso
-  - retorna para a listagem de serviços
-*/
+// Função chamada ao clicar em SALVAR
 const salvarServico = () => {
   if (!servico.value.nome || !servico.value.preco || !servico.value.tempo) {
     alert('Por favor, preencha todos os campos obrigatórios.')
@@ -125,17 +112,14 @@ const salvarServico = () => {
   router.push('/servico')
 }
 
-/*
-  Função chamada ao clicar em CANCELAR
-  - simplesmente volta para tela anterior
-*/
+// Função chamada ao clicar em CANCELAR
 const voltar = () => {
   router.push('/servico')
 }
 </script>
 
 <style scoped>
-/* Fundo e centralização do formulário */
+
 .cadastro-servico-container {
   background: linear-gradient(135deg, #1b1b1b 40%, #a60000);
   min-height: 100vh;
@@ -144,7 +128,7 @@ const voltar = () => {
   justify-content: center;
 }
 
-/* Card do formulário */
+
 .form-card {
   width: 450px;
   background: rgba(25, 25, 25, 0.95);
@@ -154,20 +138,20 @@ const voltar = () => {
   transition: 0.3s;
 }
 
-/* Efeito hover para dar modernidade */
+
 .form-card:hover {
   transform: scale(1.02);
   box-shadow: 0 0 35px rgba(255, 0, 0, 0.6);
 }
 
-/* Título do card */
+
 .titulo {
   color: white;
   text-shadow: 0 0 10px red;
   font-weight: 600;
 }
 
-/* Garantindo que os textos dos inputs fiquem brancos */
+
 .q-field__native,
 .q-field__label {
   color: #fff !important;
