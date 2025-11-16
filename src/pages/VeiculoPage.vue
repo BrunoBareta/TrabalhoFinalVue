@@ -2,6 +2,7 @@
   <div class="veiculo-container">
     <div class="form-container">
       <!-- Lado esquerdo -->
+
       <div class="form-left">
         <q-form @submit.prevent="salvarVeiculo" class="form-content">
           <div class="form-field">
@@ -64,8 +65,8 @@
         <!-- Lista -->
         <transition name="fade">
           <div v-if="mostrarLista" class="lista-veiculos">
-            <div v-if="veiculosFiltrados.length === 0" class="nenhum-veiculo">Nenhum veículo encontrado.</div>
-            <div v-for="(v, i) in veiculosFiltrados" :key="i" class="veiculo-item">
+            <div v-if="veiculoStore.veiculos.length === 0" class="nenhum-veiculo">Nenhum veículo encontrado.</div>
+            <div v-for="(v, i) in veiculoStore.veiculos" :key="i" class="veiculo-item">
               <span>{{ v.modelo }} - {{ v.placa }} ({{ v.ano }})</span>
               <div class="botoes-acoes">
                 <q-btn label="EDITAR" size="sm" color="red" flat dense @click="editarVeiculo(v)" />
@@ -80,6 +81,12 @@
 </template>
 
 <script setup>
+
+import { useVeiculoStore } from '../stores/veiculo'
+const veiculoStore = useVeiculoStore()
+veiculoStore.getVeiculos()
+
+
 import { ref } from 'vue'
 
 const veiculo = ref({
@@ -91,18 +98,19 @@ const veiculo = ref({
 
 const mostrarLista = ref(false)
 
-const listaVeiculos = ref([
-  { cliente: 'Bruno Bareta', modelo: 'Volkswagen Golf GTI', placa: 'ABC-1234', ano: '2020' },
-  { cliente: 'Igor Haas', modelo: 'BMW 320i', placa: 'XYZ-4321', ano: '2021' },
-  { cliente: 'Felipe Dano', modelo: 'Chevrolet Onix LTZ', placa: 'JKL-8899', ano: '2019' },
-  { cliente: 'Lucas Martins', modelo: 'Fiat Argo', placa: 'QWE-5566', ano: '2020' },
-  { cliente: 'Camila Souza', modelo: 'Toyota Corolla', placa: 'TYU-7788', ano: '2022' },
-  { cliente: 'Juliana Ramos', modelo: 'Honda Civic', placa: 'CVX-2211', ano: '2021' },
-  { cliente: 'Carlos Andrade', modelo: 'Ford Focus', placa: 'FOR-8899', ano: '2018' },
-  { cliente: 'Ana Paula', modelo: 'Nissan Kicks', placa: 'NIS-1010', ano: '2023' },
-  { cliente: 'Rafael Lima', modelo: 'Hyundai HB20', placa: 'HYU-9090', ano: '2022' },
-  { cliente: 'Patrícia Torres', modelo: 'Jeep Renegade', placa: 'JPP-3030', ano: '2021' }
-])
+const listaVeiculos = ref([])
+  // [
+//   { cliente: 'Bruno Bareta', modelo: 'Volkswagen Golf GTI', placa: 'ABC-1234', ano: '2020' },
+  // { cliente: 'Igor Haas', modelo: 'BMW 320i', placa: 'XYZ-4321', ano: '2021' },
+  // { cliente: 'Felipe Dano', modelo: 'Chevrolet Onix LTZ', placa: 'JKL-8899', ano: '2019' },
+  // { cliente: 'Lucas Martins', modelo: 'Fiat Argo', placa: 'QWE-5566', ano: '2020' },
+  // { cliente: 'Camila Souza', modelo: 'Toyota Corolla', placa: 'TYU-7788', ano: '2022' },
+  // { cliente: 'Juliana Ramos', modelo: 'Honda Civic', placa: 'CVX-2211', ano: '2021' },
+  // { cliente: 'Carlos Andrade', modelo: 'Ford Focus', placa: 'FOR-8899', ano: '2018' },
+  // { cliente: 'Ana Paula', modelo: 'Nissan Kicks', placa: 'NIS-1010', ano: '2023' },
+  // { cliente: 'Rafael Lima', modelo: 'Hyundai HB20', placa: 'HYU-9090', ano: '2022' },
+  // { cliente: 'Patrícia Torres', modelo: 'Jeep Renegade', placa: 'JPP-3030', ano: '2021' }
+// ])
 
 const busca = ref('')
 const veiculosFiltrados = ref([...listaVeiculos.value])

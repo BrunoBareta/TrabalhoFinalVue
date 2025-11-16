@@ -1,7 +1,76 @@
 {
-  "clientes": [],
-  "veiculo": [],
-  "funcionarios": [],
-  "servicos": [],
-  "ordens": []
+   "clientes":[
+      
+   ],
+   "veiculos":[
+      {
+         "cliente":"Bruno Bareta",
+         "modelo":"Volkswagen Golf GTI",
+         "placa":"ABC-1234",
+         "ano":"2020"
+      },
+      {
+         "cliente":"Igor Haas",
+         "modelo":"BMW 320i",
+         "placa":"XYZ-4321",
+         "ano":"2021"
+      },
+      {
+         "cliente":"Felipe Dano",
+         "modelo":"Chevrolet Onix LTZ",
+         "placa":"JKL-8899",
+         "ano":"2019"
+      },
+      {
+         "cliente":"Lucas Martins",
+         "modelo":"Fiat Argo",
+         "placa":"QWE-5566",
+         "ano":"2020"
+      },
+      {
+         "cliente":"Camila Souza",
+         "modelo":"Toyota Corolla",
+         "placa":"TYU-7788",
+         "ano":"2022"
+      },
+      {
+         "cliente":"Juliana Ramos",
+         "modelo":"Honda Civic",
+         "placa":"CVX-2211",
+         "ano":"2021"
+      },
+      {
+         "cliente":"Carlos Andrade",
+         "modelo":"Ford Focus",
+         "placa":"FOR-8899",
+         "ano":"2018"
+      },
+      {
+         "cliente":"Ana Paula",
+         "modelo":"Nissan Kicks",
+         "placa":"NIS-1010",
+         "ano":"2023"
+      },
+      {
+         "cliente":"Rafael Lima",
+         "modelo":"Hyundai HB20",
+         "placa":"HYU-9090",
+         "ano":"2022"
+      },
+      {
+         "cliente":"Patrícia Torres",
+         "modelo":"Jeep Renegade",
+         "placa":"JPP-3030",
+         "ano":"2021"
+      }
+   ],
+   "funcionarios":[
+      
+   ],
+   "servicos":[
+      
+   ],
+   "ordens":[
+      
+   ]
 }

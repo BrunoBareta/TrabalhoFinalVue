@@ -1,10 +1,10 @@
-import { defineBoot } from 'quasar/wrappers'
+import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 
 // Configuração da base da API (porta do JSON Server)
-const api = axios.create({ baseURL: 'http://localhost:3001' })
+const api = axios.create({ baseURL: 'http://localhost:3000' })
 
-export default defineBoot(({ app }) => {
+export default boot(({ app }) => {
   // Torna o axios acessível globalmente (this.$axios)
   app.config.globalProperties.$axios = axios
 
