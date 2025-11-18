@@ -2,7 +2,7 @@
   <div class="cliente-container">
     <div class="form-container">
 
-      <!-- LADO ESQUERDO -->
+      <!-- FORMULÁRIO (lado esquerdo) -->
       <div class="form-left">
         <q-form @submit.prevent="salvarCliente" class="form-content">
 
@@ -33,7 +33,7 @@
               :label="mostrarLista ? 'OCULTAR LISTA' : 'LISTAR CLIENTES'"
               color="primary"
               glossy
-              @click="mostrarLista = !mostrarLista"
+              @click="listarClientes"
             />
           </div>
 
@@ -66,7 +66,7 @@
           </div>
         </div>
 
-        <!-- LISTA -->
+        <!-- LISTA DE CLIENTES -->
         <transition name="fade">
           <div v-if="mostrarLista" class="lista-clientes">
 
@@ -92,17 +92,22 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useClienteStore } from 'src/stores/clientes-store'
 
 const clienteStore = useClienteStore()
-clienteStore.getClientes()
+
+// 🔥 ESSENCIAL — isso carrega a lista quando a página abre
+onMounted(() => {
+  clienteStore.getClientes()
+})
 
 const cliente = ref({ id: null, nome: '', cpf: '', email: '', telefone: '' })
 const mostrarLista = ref(false)
 const busca = ref('')
 const clientesFiltrados = ref([])
 
+// Atualiza lista sempre que vier do store
 watch(
   () => clienteStore.clientes,
   () => {
@@ -110,6 +115,15 @@ watch(
   },
   { immediate: true }
 )
+
+async function listarClientes() {
+  mostrarLista.value = !mostrarLista.value
+
+  if (mostrarLista.value) {
+    await clienteStore.getClientes()
+    clientesFiltrados.value = [...clienteStore.clientes]
+  }
+}
 
 function salvarCliente() {
   if (!cliente.value.nome || !cliente.value.cpf || !cliente.value.email) {
@@ -124,7 +138,7 @@ function salvarCliente() {
   }
 
   cancelar()
-  alert('Cliente salvo com sucesso!')
+  listarClientes()
 }
 
 function editarCliente(c) {
@@ -134,6 +148,7 @@ function editarCliente(c) {
 function excluirCliente(id) {
   if (confirm('Deseja realmente excluir este cliente?')) {
     clienteStore.deleteCliente(id)
+    listarClientes()
   }
 }
 
@@ -155,6 +170,8 @@ function limparBusca() {
 </script>
 
 <style scoped>
+/* ======== COPIADO DA TELA DE VEÍCULO ======== */
+
 .cliente-container {
   background: linear-gradient(135deg, #1b1b1b 40%, #a60000);
   min-height: 100vh;
@@ -205,20 +222,16 @@ label {
   max-width: 340px;
   border-radius: 12px;
   box-shadow: 0 0 35px rgba(255, 0, 0, 0.4);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.logo-img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 45px rgba(255, 0, 0, 0.6);
 }
 
 .titulo {
   text-align: center;
-  color: #fff;
-  margin-bottom: 20px;
-  font-family: 'Brush Script MT', cursive;
-  font-size: 2rem;
+  color: #ffffff;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 2.2rem;
+  font-family: "Brush Script MT", "Lucida Handwriting", cursive;
+  font-weight: 400;
 }
 
 .search-container {

@@ -8,22 +8,46 @@
 
           <div class="form-field">
             <label>Cliente:</label>
-            <q-input v-model="veiculo.cliente" outlined color="red" bg-color="dark" input-class="text-white" />
+            <q-input
+              v-model="veiculo.cliente"
+              outlined
+              color="red"
+              bg-color="dark"
+              input-class="text-white"
+            />
           </div>
 
           <div class="form-field">
             <label>Modelo:</label>
-            <q-input v-model="veiculo.modelo" outlined color="red" bg-color="dark" input-class="text-white" />
+            <q-input
+              v-model="veiculo.modelo"
+              outlined
+              color="red"
+              bg-color="dark"
+              input-class="text-white"
+            />
           </div>
 
           <div class="form-field">
             <label>Placa:</label>
-            <q-input v-model="veiculo.placa" outlined color="red" bg-color="dark" input-class="text-white" />
+            <q-input
+              v-model="veiculo.placa"
+              outlined
+              color="red"
+              bg-color="dark"
+              input-class="text-white"
+            />
           </div>
 
           <div class="form-field">
             <label>Ano:</label>
-            <q-input v-model="veiculo.ano" outlined color="red" bg-color="dark" input-class="text-white" />
+            <q-input
+              v-model="veiculo.ano"
+              outlined
+              color="red"
+              bg-color="dark"
+              input-class="text-white"
+            />
           </div>
 
           <div class="btn-group">
@@ -36,17 +60,16 @@
               @click="mostrarLista = !mostrarLista"
             />
           </div>
-
         </q-form>
       </div>
 
       <!-- LADO DIREITO -->
       <div class="form-right">
-
         <div class="logo-wrapper">
-          <img src="../assets/logo-oeste.png" class="logo-img">
+          <img src="../assets/logo-oeste.png" class="logo-img" />
         </div>
 
+        <!-- TÍTULO IGUAL AO DA TELA DE CLIENTE -->
         <h2 class="titulo">Gerenciamento de Veículos</h2>
 
         <!-- BUSCA -->
@@ -69,7 +92,6 @@
         <!-- LISTAGEM -->
         <transition name="fade">
           <div v-if="mostrarLista" class="lista-veiculos">
-
             <div v-if="veiculosFiltrados.length === 0" class="nenhum-veiculo">
               Nenhum veículo encontrado.
             </div>
@@ -78,14 +100,26 @@
               <span>{{ v.modelo }} - {{ v.placa }} ({{ v.ano }})</span>
 
               <div class="botoes-acoes">
-                <q-btn label="EDITAR" size="sm" color="red" flat dense @click="editarVeiculo(v)" />
-                <q-btn label="EXCLUIR" size="sm" color="grey" flat dense @click="excluirVeiculo(v.id)" />
+                <q-btn
+                  label="EDITAR"
+                  size="sm"
+                  color="red"
+                  flat
+                  dense
+                  @click="editarVeiculo(v)"
+                />
+                <q-btn
+                  label="EXCLUIR"
+                  size="sm"
+                  color="grey"
+                  flat
+                  dense
+                  @click="excluirVeiculo(v.id)"
+                />
               </div>
             </div>
-
           </div>
         </transition>
-
       </div>
     </div>
   </div>
@@ -124,7 +158,7 @@ const veiculosFiltrados = computed(() => {
   )
 })
 
-async function salvarVeiculo() {
+async function salvarVeiculo () {
   if (!veiculo.value.cliente || !veiculo.value.modelo || !veiculo.value.placa) {
     alert('Preencha os campos obrigatórios!')
     return
@@ -139,21 +173,21 @@ async function salvarVeiculo() {
   limparFormulario()
 }
 
-function editarVeiculo(v) {
+function editarVeiculo (v) {
   veiculo.value = { ...v }
 }
 
-async function excluirVeiculo(id) {
+async function excluirVeiculo (id) {
   if (confirm('Deseja realmente excluir este veículo?')) {
     await veiculoStore.deleteVeiculo(id)
   }
 }
 
-function cancelar() {
+function cancelar () {
   limparFormulario()
 }
 
-function limparFormulario() {
+function limparFormulario () {
   veiculo.value = {
     id: null,
     cliente: '',
@@ -163,7 +197,7 @@ function limparFormulario() {
   }
 }
 
-function limparBusca() {
+function limparBusca () {
   busca.value = ''
 }
 </script>
@@ -221,11 +255,15 @@ label {
   box-shadow: 0 0 35px rgba(255, 0, 0, 0.4);
 }
 
+/* TÍTULO IGUAL AO CLIENTE */
 .titulo {
   text-align: center;
-  color: #fff;
-  margin-bottom: 20px;
-  font-size: 2rem;
+  color: #ffffff;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 2.2rem;
+  font-family: "Brush Script MT", "Lucida Handwriting", cursive;
+  font-weight: 400;
 }
 
 .search-container {

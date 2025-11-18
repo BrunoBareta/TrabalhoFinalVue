@@ -9,15 +9,13 @@ export const useServicoStore = defineStore('servico', {
 
   actions: {
     async getServicos () {
-      this.loading = true
-      const response = await ServicoService.getServicos()
-      this.servicos = response.data
-      this.loading = false
-    },
-
-    async getServico (id) {
-      const response = await ServicoService.getServicoById(id)
-      return response.data
+      try {
+        this.loading = true
+        const response = await ServicoService.getServicos()
+        this.servicos = response.data
+      } finally {
+        this.loading = false
+      }
     },
 
     async postServico (dados) {

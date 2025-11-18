@@ -1,6 +1,4 @@
 const routes = [
-
-  // Redireciona raiz para login
   {
     path: '/',
     redirect: '/login'
@@ -12,20 +10,20 @@ const routes = [
     component: () => import('pages/LoginPage.vue')
   },
 
-  // Recuperar Senha
+  // Recuperar senha
   {
     path: '/recuperar-senha',
     component: () => import('pages/RecuperarSenhaPage.vue')
   },
 
-  // LAYOUT PRINCIPAL
+  // Todas as páginas internas usam o MainLayout
   {
-    path: '/home',
+    path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
 
-      // Página inicial
-      { path: '', component: () => import('pages/IndexPage.vue') },
+      // Página inicial / dashboard
+      { path: 'dashboard', component: () => import('pages/DashboardPage.vue') },
 
       // Clientes
       { path: 'cliente', component: () => import('pages/ClientePage.vue') },
@@ -41,9 +39,6 @@ const routes = [
 
       // Ordem de Serviço
       { path: 'ordem-servico', component: () => import('pages/OrdemServicoPage.vue') },
-
-      // Dashboard
-      { path: 'dashboard', component: () => import('pages/DashboardPage.vue') }
     ]
   },
 

@@ -1,7 +1,25 @@
-import { api } from 'boot/axios'
+import axios from 'axios'
 
-export const getFuncionarios = () => api.get('/funcionarios')
-export const getFuncionarioById = (id) => api.get(`/funcionarios/${id}`)
-export const createFuncionario = (funcionario) => api.post('/funcionarios', funcionario)
-export const updateFuncionario = (id, funcionario) => api.put(`/funcionarios/${id}`, funcionario)
-export const deleteFuncionario = (id) => api.delete(`/funcionarios/${id}`)
+const API = "http://localhost:3000/funcionarios"
+
+export default {
+  async listar() {
+    const res = await axios.get(API)
+    return res.data
+  },
+
+  async criar(func) {
+    const res = await axios.post(API, func)
+    return res.data
+  },
+
+  async atualizar(id, func) {
+    const res = await axios.put(`${API}/${id}`, func)
+    return res.data
+  },
+
+  async excluir(id) {
+    const res = await axios.delete(`${API}/${id}`)
+    return res.data
+  }
+}

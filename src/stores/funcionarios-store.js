@@ -1,33 +1,35 @@
 import { defineStore } from 'pinia'
-import * as FuncionariosService from 'src/services/funcionarios'
+import service from '../services/funcionarios'
 
-export const useFuncionarioStore = defineStore('funcionarios', {
+export const useFuncionariosStore = defineStore('funcionariosStore', {
   state: () => ({
-    funcionarios: [],
-    loading: false
+    lista: [],
+    funcionarioEdicao: null
   }),
 
   actions: {
-    async getFuncionarios() {
-      this.loading = true
-      const response = await FuncionariosService.getFuncionarios()
-      this.funcionarios = response.data
-      this.loading = false
+    async carregar() {
+      this.lista = await service.listar()
     },
 
-    async postFuncionario(dados) {
-      await FuncionariosService.createFuncionario(dados)
-      await this.getFuncionarios()
+    async salvar(func) {
+      if (this.funcionarioEdicao) {
+        await service.atualizar(this.funcionarioEdicao.id, func)
+      } else {
+        await service.criar(func)
+      }
+
+      this.funcionarioEdicao = null
+      await this.carregar()
     },
 
-    async putFuncionario(id, dados) {
-      await FuncionariosService.updateFuncionario(id, dados)
-      await this.getFuncionarios()
+    editar(func) {
+      this.funcionarioEdicao = { ...func }
     },
 
-    async deleteFuncionario(id) {
-      await FuncionariosService.deleteFuncionario(id)
-      await this.getFuncionarios()
+    async excluir(id) {
+      await service.excluir(id)
+      await this.carregar()
     }
   }
 })
