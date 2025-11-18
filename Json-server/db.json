@@ -1,76 +1,164 @@
 {
-   "clientes":[
-      
-   ],
-   "veiculos":[
-      {
-         "cliente":"Bruno Bareta",
-         "modelo":"Volkswagen Golf GTI",
-         "placa":"ABC-1234",
-         "ano":"2020"
-      },
-      {
-         "cliente":"Igor Haas",
-         "modelo":"BMW 320i",
-         "placa":"XYZ-4321",
-         "ano":"2021"
-      },
-      {
-         "cliente":"Felipe Dano",
-         "modelo":"Chevrolet Onix LTZ",
-         "placa":"JKL-8899",
-         "ano":"2019"
-      },
-      {
-         "cliente":"Lucas Martins",
-         "modelo":"Fiat Argo",
-         "placa":"QWE-5566",
-         "ano":"2020"
-      },
-      {
-         "cliente":"Camila Souza",
-         "modelo":"Toyota Corolla",
-         "placa":"TYU-7788",
-         "ano":"2022"
-      },
-      {
-         "cliente":"Juliana Ramos",
-         "modelo":"Honda Civic",
-         "placa":"CVX-2211",
-         "ano":"2021"
-      },
-      {
-         "cliente":"Carlos Andrade",
-         "modelo":"Ford Focus",
-         "placa":"FOR-8899",
-         "ano":"2018"
-      },
-      {
-         "cliente":"Ana Paula",
-         "modelo":"Nissan Kicks",
-         "placa":"NIS-1010",
-         "ano":"2023"
-      },
-      {
-         "cliente":"Rafael Lima",
-         "modelo":"Hyundai HB20",
-         "placa":"HYU-9090",
-         "ano":"2022"
-      },
-      {
-         "cliente":"Patrícia Torres",
-         "modelo":"Jeep Renegade",
-         "placa":"JPP-3030",
-         "ano":"2021"
-      }
-   ],
-   "funcionarios":[
-      
-   ],
-   "servicos":[
-      
-   ],
-   "ordens":[
-      
-   ]
+  "clientes": [
+    {
+      "id": 1,
+      "nome": "Bruno",
+      "cpf": "123.456.789-10",
+      "email": "bruno@teste.com",
+      "telefone": "99999999"
+    },
+    {
+      "id": 2,
+      "nome": "Felipe",
+      "cpf": "123.456.789-10",
+      "email": "felipe@teste.com",
+      "telefone": "99999999"
+    },
+    {
+      "id": 3,
+      "nome": "Igor",
+      "cpf": "123.456.789-10",
+      "email": "igor@teste.com",
+      "telefone": "123456789"
+    }
+  ],
+
+  "veiculos": [
+    {
+      "id": 1,
+      "cliente": "Bruno Bareta",
+      "modelo": "Volkswagen Golf GTI",
+      "placa": "ABC-1234",
+      "ano": "2018"
+    },
+    {
+      "id": 2,
+      "cliente": "Igor Haas",
+      "modelo": "BMW 320i",
+      "placa": "XYZ-4321",
+      "ano": "2021"
+    },
+    {
+      "id": 3,
+      "cliente": "Felipe Dano",
+      "modelo": "Chevrolet Onix LTZ",
+      "placa": "JKL-8899",
+      "ano": "2019"
+    },
+    {
+      "id": 4,
+      "cliente": "Lucas Martins",
+      "modelo": "Fiat Argo",
+      "placa": "QWE-5566",
+      "ano": "2020"
+    },
+    {
+      "id": 5,
+      "cliente": "Camila Souza",
+      "modelo": "Toyota Corolla",
+      "placa": "TYU-7788",
+      "ano": "2022"
+    },
+    {
+      "id": 6,
+      "cliente": "Juliana Ramos",
+      "modelo": "Honda Civic",
+      "placa": "CVX-2211",
+      "ano": "2021"
+    },
+    {
+      "id": 7,
+      "cliente": "Carlos Andrade",
+      "modelo": "Ford Focus",
+      "placa": "FOR-8899",
+      "ano": "2018"
+    },
+    {
+      "id": 8,
+      "cliente": "Ana Paula",
+      "modelo": "Nissan Kicks",
+      "placa": "NIS-1010",
+      "ano": "2023"
+    },
+    {
+      "id": 9,
+      "cliente": "Rafael Lima",
+      "modelo": "Hyundai HB20",
+      "placa": "HYU-9090",
+      "ano": "2022"
+    },
+    {
+      "id": 10,
+      "cliente": "Patrícia Torres",
+      "modelo": "Jeep Renegade",
+      "placa": "JPP-3030",
+      "ano": "2021"
+    }
+  ],
+
+  "funcionarios": [
+    {
+      "id": 1,
+      "nome": "Marcos Oliveira",
+      "cargo": "Mecânico",
+      "email": "marcos@oficina.com",
+      "telefone": "99988-7766"
+    },
+    {
+      "id": 2,
+      "nome": "Julia Mendes",
+      "cargo": "Atendente",
+      "email": "julia@oficina.com",
+      "telefone": "98877-6655"
+    },
+    {
+      "id": 3,
+      "nome": "Renato Silva",
+      "cargo": "Gerente",
+      "email": "renato@oficina.com",
+      "telefone": "97766-5544"
+    }
+  ],
+
+  "servicos": [
+    {
+      "id": 1,
+      "nome": "Troca de Óleo",
+      "descricao": "Troca completa de óleo e filtro",
+      "preco": 120
+    },
+    {
+      "id": 2,
+      "nome": "Alinhamento e Balanceamento",
+      "descricao": "Serviço completo de alinhamento e balanceamento",
+      "preco": 150
+    },
+    {
+      "id": 3,
+      "nome": "Revisão Completa",
+      "descricao": "Revisão geral de 40 itens do veículo",
+      "preco": 350
+    }
+  ],
+
+  "ordens": [
+    {
+      "id": 1,
+      "cliente": "Bruno",
+      "veiculo": "Volkswagen Golf GTI",
+      "servicos": ["Troca de Óleo", "Alinhamento"],
+      "data": "2025-01-10",
+      "status": "Concluído",
+      "valor_total": 270
+    },
+    {
+      "id": 2,
+      "cliente": "Felipe",
+      "veiculo": "Chevrolet Onix LTZ",
+      "servicos": ["Revisão Completa"],
+      "data": "2025-01-28",
+      "status": "Em andamento",
+      "valor_total": 350
+    }
+  ]
 }

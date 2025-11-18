@@ -1,10 +1,11 @@
 <template>
   <div class="veiculo-container">
     <div class="form-container">
-      <!-- Lado esquerdo -->
 
+      <!-- FORMULÁRIO (lado esquerdo) -->
       <div class="form-left">
         <q-form @submit.prevent="salvarVeiculo" class="form-content">
+
           <div class="form-field">
             <label>Cliente:</label>
             <q-input v-model="veiculo.cliente" outlined color="red" bg-color="dark" input-class="text-white" />
@@ -35,17 +36,20 @@
               @click="mostrarLista = !mostrarLista"
             />
           </div>
+
         </q-form>
       </div>
 
-      <!-- Lado direito -->
+      <!-- LADO DIREITO -->
       <div class="form-right">
+
         <div class="logo-wrapper">
-          <img src="../assets/logo-oeste.png" alt="Oeste Auto Center" class="logo-img" />
+          <img src="../assets/logo-oeste.png" class="logo-img">
         </div>
+
         <h2 class="titulo">Gerenciamento de Veículos</h2>
 
-        <!-- Campo de busca -->
+        <!-- BUSCA -->
         <div v-if="mostrarLista" class="search-container">
           <q-input
             v-model="busca"
@@ -57,39 +61,48 @@
             dense
           />
           <div class="search-buttons">
-            <q-btn label="Pesquisar" color="red" glossy @click="filtrarVeiculos" />
+            <q-btn label="Pesquisar" color="red" glossy />
             <q-btn label="Limpar" color="grey-8" glossy @click="limparBusca" />
           </div>
         </div>
 
-        <!-- Lista -->
+        <!-- LISTAGEM -->
         <transition name="fade">
           <div v-if="mostrarLista" class="lista-veiculos">
-            <div v-if="veiculoStore.veiculos.length === 0" class="nenhum-veiculo">Nenhum veículo encontrado.</div>
-            <div v-for="(v, i) in veiculoStore.veiculos" :key="i" class="veiculo-item">
+
+            <div v-if="veiculosFiltrados.length === 0" class="nenhum-veiculo">
+              Nenhum veículo encontrado.
+            </div>
+
+            <div v-for="v in veiculosFiltrados" :key="v.id" class="veiculo-item">
               <span>{{ v.modelo }} - {{ v.placa }} ({{ v.ano }})</span>
+
               <div class="botoes-acoes">
                 <q-btn label="EDITAR" size="sm" color="red" flat dense @click="editarVeiculo(v)" />
-                <q-btn label="EXCLUIR" size="sm" color="grey" flat dense @click="excluirVeiculo(i)" />
+                <q-btn label="EXCLUIR" size="sm" color="grey" flat dense @click="excluirVeiculo(v.id)" />
               </div>
             </div>
+
           </div>
         </transition>
+
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-
+import { ref, computed, onMounted } from 'vue'
 import { useVeiculoStore } from '../stores/veiculo'
+
 const veiculoStore = useVeiculoStore()
-veiculoStore.getVeiculos()
 
-
-import { ref } from 'vue'
+onMounted(() => {
+  veiculoStore.getVeiculos()
+})
 
 const veiculo = ref({
+  id: null,
   cliente: '',
   modelo: '',
   placa: '',
@@ -97,65 +110,61 @@ const veiculo = ref({
 })
 
 const mostrarLista = ref(false)
-
-const listaVeiculos = ref([])
-  // [
-//   { cliente: 'Bruno Bareta', modelo: 'Volkswagen Golf GTI', placa: 'ABC-1234', ano: '2020' },
-  // { cliente: 'Igor Haas', modelo: 'BMW 320i', placa: 'XYZ-4321', ano: '2021' },
-  // { cliente: 'Felipe Dano', modelo: 'Chevrolet Onix LTZ', placa: 'JKL-8899', ano: '2019' },
-  // { cliente: 'Lucas Martins', modelo: 'Fiat Argo', placa: 'QWE-5566', ano: '2020' },
-  // { cliente: 'Camila Souza', modelo: 'Toyota Corolla', placa: 'TYU-7788', ano: '2022' },
-  // { cliente: 'Juliana Ramos', modelo: 'Honda Civic', placa: 'CVX-2211', ano: '2021' },
-  // { cliente: 'Carlos Andrade', modelo: 'Ford Focus', placa: 'FOR-8899', ano: '2018' },
-  // { cliente: 'Ana Paula', modelo: 'Nissan Kicks', placa: 'NIS-1010', ano: '2023' },
-  // { cliente: 'Rafael Lima', modelo: 'Hyundai HB20', placa: 'HYU-9090', ano: '2022' },
-  // { cliente: 'Patrícia Torres', modelo: 'Jeep Renegade', placa: 'JPP-3030', ano: '2021' }
-// ])
-
 const busca = ref('')
-const veiculosFiltrados = ref([...listaVeiculos.value])
 
-function salvarVeiculo() {
-  if (veiculo.value.modelo && veiculo.value.placa && veiculo.value.cliente) {
-    listaVeiculos.value.push({ ...veiculo.value })
-    veiculosFiltrados.value = [...listaVeiculos.value]
-    veiculo.value = { cliente: '', modelo: '', placa: '', ano: '' }
-    alert('Veículo salvo com sucesso!')
-  } else {
-    alert('Preencha os campos obrigatórios!')
+const veiculosFiltrados = computed(() => {
+  if (!busca.value.trim()) {
+    return veiculoStore.veiculos
   }
+
+  const termo = busca.value.toLowerCase()
+
+  return veiculoStore.veiculos.filter(v =>
+    `${v.modelo} ${v.placa} ${v.cliente} ${v.ano}`.toLowerCase().includes(termo)
+  )
+})
+
+async function salvarVeiculo() {
+  if (!veiculo.value.cliente || !veiculo.value.modelo || !veiculo.value.placa) {
+    alert('Preencha os campos obrigatórios!')
+    return
+  }
+
+  if (veiculo.value.id) {
+    await veiculoStore.putVeiculo(veiculo.value.id, veiculo.value)
+  } else {
+    await veiculoStore.postVeiculo(veiculo.value)
+  }
+
+  limparFormulario()
 }
 
 function editarVeiculo(v) {
   veiculo.value = { ...v }
 }
 
-function excluirVeiculo(index) {
+async function excluirVeiculo(id) {
   if (confirm('Deseja realmente excluir este veículo?')) {
-    listaVeiculos.value.splice(index, 1)
-    veiculosFiltrados.value = [...listaVeiculos.value]
-    alert('Veículo excluído com sucesso!')
+    await veiculoStore.deleteVeiculo(id)
   }
 }
 
 function cancelar() {
-  veiculo.value = { cliente: '', modelo: '', placa: '', ano: '' }
+  limparFormulario()
 }
 
-function filtrarVeiculos() {
-  if (busca.value.trim() === '') {
-    veiculosFiltrados.value = [...listaVeiculos.value]
-    return
+function limparFormulario() {
+  veiculo.value = {
+    id: null,
+    cliente: '',
+    modelo: '',
+    placa: '',
+    ano: ''
   }
-  const termo = busca.value.toLowerCase()
-  veiculosFiltrados.value = listaVeiculos.value.filter(v =>
-    `${v.modelo} ${v.placa}`.toLowerCase().includes(termo)
-  )
 }
 
 function limparBusca() {
   busca.value = ''
-  veiculosFiltrados.value = [...listaVeiculos.value]
 }
 </script>
 
@@ -210,19 +219,12 @@ label {
   max-width: 340px;
   border-radius: 12px;
   box-shadow: 0 0 35px rgba(255, 0, 0, 0.4);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.logo-img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 45px rgba(255, 0, 0, 0.6);
 }
 
 .titulo {
   text-align: center;
   color: #fff;
   margin-bottom: 20px;
-  font-family: 'Brush Script MT', cursive;
   font-size: 2rem;
 }
 

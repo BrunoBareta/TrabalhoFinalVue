@@ -1,9 +1,11 @@
 <template>
   <div class="cliente-container">
     <div class="form-container">
-      <!-- Lado esquerdo -->
+
+      <!-- LADO ESQUERDO -->
       <div class="form-left">
         <q-form @submit.prevent="salvarCliente" class="form-content">
+
           <div class="form-field">
             <label>Nome:</label>
             <q-input v-model="cliente.nome" outlined color="red" bg-color="dark" input-class="text-white" />
@@ -34,17 +36,20 @@
               @click="mostrarLista = !mostrarLista"
             />
           </div>
+
         </q-form>
       </div>
 
-      <!-- Lado direito -->
+      <!-- LADO DIREITO -->
       <div class="form-right">
+
         <div class="logo-wrapper">
-          <img src="../assets/logo-oeste.png" alt="Oeste Auto Center" class="logo-img" />
+          <img src="../assets/logo-oeste.png" class="logo-img" />
         </div>
+
         <h2 class="titulo">Gerenciamento de Clientes</h2>
 
-        <!-- Campo de busca -->
+        <!-- BUSCA -->
         <div v-if="mostrarLista" class="search-container">
           <q-input
             v-model="busca"
@@ -61,87 +66,91 @@
           </div>
         </div>
 
-        <!-- Lista -->
+        <!-- LISTA -->
         <transition name="fade">
           <div v-if="mostrarLista" class="lista-clientes">
-            <div v-if="clientesFiltrados.length === 0" class="nenhum-cliente">Nenhum cliente encontrado.</div>
-            <div v-for="(c, i) in clientesFiltrados" :key="i" class="cliente-item">
+
+            <div v-if="clientesFiltrados.length === 0" class="nenhum-cliente">
+              Nenhum cliente encontrado.
+            </div>
+
+            <div v-for="c in clientesFiltrados" :key="c.id" class="cliente-item">
               <span>{{ c.nome }} - {{ c.email }}</span>
+
               <div class="botoes-acoes">
                 <q-btn label="EDITAR" size="sm" color="red" flat dense @click="editarCliente(c)" />
-                <q-btn label="EXCLUIR" size="sm" color="grey" flat dense @click="excluirCliente(i)" />
+                <q-btn label="EXCLUIR" size="sm" color="grey" flat dense @click="excluirCliente(c.id)" />
               </div>
             </div>
+
           </div>
         </transition>
+
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useClienteStore } from 'src/stores/clientes-store'
 
-const cliente = ref({ nome: '', cpf: '', email: '', telefone: '' })
+const clienteStore = useClienteStore()
+clienteStore.getClientes()
+
+const cliente = ref({ id: null, nome: '', cpf: '', email: '', telefone: '' })
 const mostrarLista = ref(false)
-
-const listaClientes = ref([
-  { nome: 'Bruno Bareta', cpf: '123.456.789-00', email: 'bruno@gmail.com', telefone: '33662548' },
-  { nome: 'Igor Haas', cpf: '987.654.321-00', email: 'igor@gmail.com', telefone: '999999999' },
-  { nome: 'Felipe Dano', cpf: '654.321.987-00', email: 'felipe@gmail.com', telefone: '988888888' },
-  { nome: 'Lucas Martins', cpf: '555.444.333-22', email: 'lucas@gmail.com', telefone: '977777777' },
-  { nome: 'Camila Souza', cpf: '222.333.444-55', email: 'camila@gmail.com', telefone: '966666666' },
-  { nome: 'Juliana Ramos', cpf: '111.222.333-44', email: 'juliana@gmail.com', telefone: '955555555' },
-  { nome: 'Carlos Andrade', cpf: '333.444.555-66', email: 'carlos@gmail.com', telefone: '944444444' },
-  { nome: 'Ana Paula', cpf: '999.888.777-66', email: 'ana@gmail.com', telefone: '933333333' },
-  { nome: 'Rafael Lima', cpf: '777.666.555-44', email: 'rafael@gmail.com', telefone: '922222222' },
-  { nome: 'Patrícia Torres', cpf: '888.999.000-11', email: 'patricia@gmail.com', telefone: '911111111' }
-])
-
 const busca = ref('')
-const clientesFiltrados = ref([...listaClientes.value])
+const clientesFiltrados = ref([])
+
+watch(
+  () => clienteStore.clientes,
+  () => {
+    clientesFiltrados.value = [...clienteStore.clientes]
+  },
+  { immediate: true }
+)
 
 function salvarCliente() {
-  if (cliente.value.nome && cliente.value.cpf && cliente.value.email) {
-    listaClientes.value.push({ ...cliente.value })
-    clientesFiltrados.value = [...listaClientes.value]
-    cliente.value = { nome: '', cpf: '', email: '', telefone: '' }
-    alert('Cliente salvo com sucesso!')
-  } else {
+  if (!cliente.value.nome || !cliente.value.cpf || !cliente.value.email) {
     alert('Preencha todos os campos obrigatórios!')
+    return
   }
+
+  if (cliente.value.id) {
+    clienteStore.putCliente(cliente.value.id, cliente.value)
+  } else {
+    clienteStore.postCliente(cliente.value)
+  }
+
+  cancelar()
+  alert('Cliente salvo com sucesso!')
 }
 
 function editarCliente(c) {
   cliente.value = { ...c }
 }
 
-function excluirCliente(index) {
+function excluirCliente(id) {
   if (confirm('Deseja realmente excluir este cliente?')) {
-    listaClientes.value.splice(index, 1)
-    clientesFiltrados.value = [...listaClientes.value]
-    alert('Cliente excluído com sucesso!')
+    clienteStore.deleteCliente(id)
   }
 }
 
 function cancelar() {
-  cliente.value = { nome: '', cpf: '', email: '', telefone: '' }
+  cliente.value = { id: null, nome: '', cpf: '', email: '', telefone: '' }
 }
 
 function filtrarClientes() {
-  if (busca.value.trim() === '') {
-    clientesFiltrados.value = [...listaClientes.value]
-    return
-  }
   const termo = busca.value.toLowerCase()
-  clientesFiltrados.value = listaClientes.value.filter(c =>
+  clientesFiltrados.value = clienteStore.clientes.filter(c =>
     `${c.nome} ${c.email}`.toLowerCase().includes(termo)
   )
 }
 
 function limparBusca() {
   busca.value = ''
-  clientesFiltrados.value = [...listaClientes.value]
+  clientesFiltrados.value = [...clienteStore.clientes]
 }
 </script>
 
