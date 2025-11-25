@@ -68,7 +68,7 @@
 
     </q-table>
 
-    <!-- 🧩 Modal NOVO -->
+    
     <q-dialog v-model="modalAdicionar">
       <q-card class="bg-dark text-white q-pa-md" style="min-width: 400px;">
         <h6 class="text-center text-red text-bold q-mb-md">Novo Serviço</h6>
@@ -112,7 +112,7 @@
       </q-card>
     </q-dialog>
 
-    <!-- 🧩 Modal EDITAR -->
+    
     <q-dialog v-model="modalEditar">
       <q-card class="bg-dark text-white q-pa-md" style="min-width: 400px;">
         <h6 class="text-center text-orange-7 text-bold q-mb-md">Editar Serviço</h6>
@@ -186,7 +186,6 @@ const categorias = [
 ]
 
 const colunas = [
-  { name: "id", label: "ID", field: "id", align: "center" },
   { name: "nome", label: "Nome do Serviço", field: "nome", align: "left" },
   { name: "preco", label: "Preço (R$)", field: "preco", align: "center" },
   { name: "categoria", label: "Categoria", field: "categoria", align: "center" },
@@ -194,7 +193,7 @@ const colunas = [
 ]
 
 const form = ref({
-  id: null,
+  
   nome: "",
   preco: "",
   categoria: "",

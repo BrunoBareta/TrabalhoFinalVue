@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
 
-    <!-- ========================= CABEÇALHO ========================= -->
+    <!-- CABEÇALHO -->
     <q-header elevated class="header-custom">
       <q-toolbar>
 
@@ -29,7 +29,7 @@
       </q-toolbar>
     </q-header>
 
-    <!-- ========================= MENU LATERAL ========================= -->
+    <!-- MENU LATERAL  -->
     <q-drawer
       v-model="drawer"
       show-if-above
@@ -79,7 +79,7 @@
       </q-list>
     </q-drawer>
 
-    <!-- ========================= CONTEÚDO ========================= -->
+    
     <q-page-container class="conteudo-container">
       <router-view />
     </q-page-container>
@@ -126,7 +126,7 @@ const usuarioNome = localStorage.getItem("usuarioNome") || "Usuário"
   text-shadow: 0 0 8px rgba(255, 0, 0, 0.9);
 }
 
-/* Drawer */
+
 .drawer-custom {
   border-right: 2px solid red;
   box-shadow: 4px 0 12px rgba(255, 0, 0, 0.3);

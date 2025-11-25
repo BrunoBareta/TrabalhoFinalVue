@@ -97,7 +97,7 @@ import { useClienteStore } from 'src/stores/clientes-store'
 
 const clienteStore = useClienteStore()
 
-// 🔥 ESSENCIAL — isso carrega a lista quando a página abre
+// isso carrega a lista quando a página abre
 onMounted(() => {
   clienteStore.getClientes()
 })
@@ -170,7 +170,7 @@ function limparBusca() {
 </script>
 
 <style scoped>
-/* ======== COPIADO DA TELA DE VEÍCULO ======== */
+
 
 .cliente-container {
   background: linear-gradient(135deg, #1b1b1b 40%, #a60000);

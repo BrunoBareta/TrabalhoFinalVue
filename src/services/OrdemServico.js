@@ -1,7 +1,24 @@
-import { api } from 'boot/axios'
+import { api } from "boot/axios";
 
-export const getOrdens = () => api.get('/ordemServico')
-export const getOrdemById = (id) => api.get(`/ordemServico/${id}`)
-export const createOrdem = (ordem) => api.post('/ordemServico', ordem)
-export const updateOrdem = (id, ordem) => api.put(`/ordemServico/${id}`, ordem)
-export const deleteOrdem = (id) => api.delete(`/ordemServico/${id}`)
+export default class OrdemServicoService {
+
+  static listar() {
+    return api.get("/ordensServico");
+  }
+
+  static criar(data) {
+    const obj = { ...data };
+    delete obj.id;
+
+    return api.post("/ordensServico", obj);
+  }
+
+  static atualizar(id, data) {
+    return api.put(`/ordensServico/${id}`, data);
+  }
+
+  static excluir(id) {
+    return api.delete(`/ordensServico/${id}`);
+  }
+
+}

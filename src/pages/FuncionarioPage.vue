@@ -178,7 +178,7 @@ function limparBusca () {
 </script>
 
 <style scoped>
-/* Reaproveitando o mesmo layout da tela de veículos */
+
 .veiculo-container {
   background: linear-gradient(135deg, #1b1b1b 40%, #a60000);
   min-height: 100vh;

@@ -59,10 +59,10 @@ const senha = ref('')
 const carregando = ref(false)
 
 const login = async () => {
-  if (email.value === 'admin@teste.com' && senha.value === '1234') {
+  if (email.value === 'bruno@teste.com' && senha.value === '1234') {
     carregando.value = true
 
-    localStorage.setItem("usuarioNome", "Admin")
+    localStorage.setItem("usuarioNome", "Bruno")
 
     await nextTick()
 
