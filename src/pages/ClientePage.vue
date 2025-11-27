@@ -27,7 +27,8 @@
           </div>
 
           <div class="btn-group">
-            <q-btn label="SALVAR" color="green" class="q-mr-sm" @click="salvarCliente" />
+            <!-- agora o submit é feito pelo form -->
+            <q-btn label="SALVAR" color="green" class="q-mr-sm" type="submit" />
             <q-btn label="CANCELAR" color="red" class="q-mr-sm" @click="cancelar" />
             <q-btn
               :label="mostrarLista ? 'OCULTAR LISTA' : 'LISTAR CLIENTES'"
@@ -97,9 +98,10 @@ import { useClienteStore } from 'src/stores/clientes-store'
 
 const clienteStore = useClienteStore()
 
-// isso carrega a lista quando a página abre
-onMounted(() => {
-  clienteStore.getClientes()
+// carrega a lista ao abrir a página
+onMounted(async () => {
+  await clienteStore.getClientes()
+  clientesFiltrados.value = [...clienteStore.clientes]
 })
 
 const cliente = ref({ id: null, nome: '', cpf: '', email: '', telefone: '' })
@@ -117,6 +119,7 @@ watch(
 )
 
 async function listarClientes() {
+  // só alterna a visibilidade
   mostrarLista.value = !mostrarLista.value
 
   if (mostrarLista.value) {
@@ -125,30 +128,49 @@ async function listarClientes() {
   }
 }
 
-function salvarCliente() {
+async function salvarCliente() {
   if (!cliente.value.nome || !cliente.value.cpf || !cliente.value.email) {
     alert('Preencha todos os campos obrigatórios!')
     return
   }
 
-  if (cliente.value.id) {
-    clienteStore.putCliente(cliente.value.id, cliente.value)
-  } else {
-    clienteStore.postCliente(cliente.value)
-  }
+  try {
+    if (cliente.value.id) {
+      // EDIÇÃO
+      await clienteStore.putCliente(cliente.value.id, cliente.value)
+    } else {
+      // CRIAÇÃO → NÃO mandar o id pro servidor
+      const dadosSemId = { ...cliente.value }
+      delete dadosSemId.id
 
-  cancelar()
-  listarClientes()
+      await clienteStore.postCliente(dadosSemId)
+    }
+
+    cancelar()
+
+    // atualiza a lista no store
+    await clienteStore.getClientes()
+    clientesFiltrados.value = [...clienteStore.clientes]
+
+    // garante que a lista esteja visível
+    if (!mostrarLista.value) {
+      mostrarLista.value = true
+    }
+  } catch (err) {
+    console.error('Erro ao salvar cliente:', err)
+    alert('Erro ao salvar cliente.')
+  }
 }
 
 function editarCliente(c) {
   cliente.value = { ...c }
 }
 
-function excluirCliente(id) {
+async function excluirCliente(id) {
   if (confirm('Deseja realmente excluir este cliente?')) {
-    clienteStore.deleteCliente(id)
-    listarClientes()
+    await clienteStore.deleteCliente(id)
+    await clienteStore.getClientes()
+    clientesFiltrados.value = [...clienteStore.clientes]
   }
 }
 
@@ -170,8 +192,6 @@ function limparBusca() {
 </script>
 
 <style scoped>
-
-
 .cliente-container {
   background: linear-gradient(135deg, #1b1b1b 40%, #a60000);
   min-height: 100vh;

@@ -52,13 +52,13 @@
         </q-form>
       </div>
 
-      <!-- LADO DIREITO (LOGO + TÍTULO + LISTA) -->
+      
       <div class="form-right">
         <div class="logo-wrapper">
           <img src="../assets/logo-oeste.png" class="logo-img" />
         </div>
 
-        <!-- TÍTULO COM MESMA FONTE DO CLIENTE -->
+        
         <h2 class="titulo">Gerenciamento de Funcionários</h2>
 
         <!-- BUSCA -->

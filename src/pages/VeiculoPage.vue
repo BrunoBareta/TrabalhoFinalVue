@@ -2,7 +2,6 @@
   <div class="veiculo-container">
     <div class="form-container">
 
-      <!-- FORMULÁRIO (lado esquerdo) -->
       <div class="form-left">
         <q-form @submit.prevent="salvarVeiculo" class="form-content">
 
@@ -69,7 +68,6 @@
           <img src="../assets/logo-oeste.png" class="logo-img" />
         </div>
 
-        <!-- TÍTULO IGUAL AO DA TELA DE CLIENTE -->
         <h2 class="titulo">Gerenciamento de Veículos</h2>
 
         <!-- BUSCA -->
@@ -255,7 +253,7 @@ label {
   box-shadow: 0 0 35px rgba(255, 0, 0, 0.4);
 }
 
-/* TÍTULO IGUAL AO CLIENTE */
+
 .titulo {
   text-align: center;
   color: #ffffff;
